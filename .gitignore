@@ -2,4 +2,4 @@
 *.pyc
 *.log
 *.DS_Storegi
-/alembic/111.py
+/alembic/test.py
