@@ -17,6 +17,7 @@ class User(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(50), unique=True,nullable=False)
     password = Column(String(50))
+    email = Column(String(50))
     creatime = Column(DateTime, default=datetime.now)
 
     def __repr__(self):
