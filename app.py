@@ -11,7 +11,7 @@ import tornado.web
 import tornado.options
 from tornado.options import define, options
 
-from handlers import main
+from handlers import main, auth
 
 
 define('port', default='8001', help='Listening port', type=int)
@@ -23,6 +23,7 @@ class Application(tornado.web.Application):
             (r"/", main.IndexHandler),
             (r"/explore", main.ExploreHandler),
             (r"/post/(?P<post_id>[0-9]+)", main.PostHandler),
+            (r"/signup", auth.RegisterHander),
 
         ]
         settings = dict(
