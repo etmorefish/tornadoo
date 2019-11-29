@@ -4,3 +4,4 @@
 *.DS_Storegi
 /alembic/test.py
 /note
+/static/images

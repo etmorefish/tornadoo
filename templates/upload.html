@@ -1,0 +1,14 @@
+{% extends base.html %}
+
+
+{% block content %}
+
+
+<form action="/upload" enctype="multipart/form-data" method="post">
+    选择文件：<input type="file" name="picture" /><br>
+  <input type="submit" /><br>
+</form>
+
+
+{% end %}
+

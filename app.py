@@ -23,6 +23,7 @@ class Application(tornado.web.Application):
             (r"/", main.IndexHandler),
             (r"/explore", main.ExploreHandler),
             (r"/post/(?P<post_id>[0-9]+)", main.PostHandler),
+            (r"/upload", main.UploadHandler),
             (r"/signup", auth.RegisterHander),
             (r"/login", auth.LoginHander),
             (r"/logout", auth.LogoutHander),
@@ -58,5 +59,5 @@ if __name__ == '__main__':
     tornado.options.parse_command_line()
     app = Application()
     app.listen(options.port)
-    print('Server start on port {}'.format(str(options.port)))
+    print('Server start on http://127.0.0.1:{}'.format(str(options.port)))
     tornado.ioloop.IOLoop.current().start()

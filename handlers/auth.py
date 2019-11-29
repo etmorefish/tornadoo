@@ -6,6 +6,7 @@
 # @Software: PyCharm
 from utils.auth import *
 from .main import BaseHandler
+from models.auth import Post
 
 
 class RegisterHander(BaseHandler):
@@ -59,3 +60,7 @@ class LogoutHander(BaseHandler):
     def get(self):
         self.session.delete('tudo_cookie')
         self.write('logout done')
+
+
+
+

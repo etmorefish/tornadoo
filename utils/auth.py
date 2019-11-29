@@ -5,7 +5,7 @@
 # @File    : auth.py
 # @Software: PyCharm
 from hashlib import md5
-from models.auth import User
+from models.auth import User, Post
 from models.db import  Session
 
 SALT = 'lilei'
@@ -56,3 +56,13 @@ def authentic(username, password):
         'result':result,
     }
     return ret
+
+def add_post(img_url, username):
+    session = Session()
+    user = session.query(User).filter_by(username=username).first()
+    post = Post(image_url=img_url, user_id=user.id)
+    session.add(post)
+    session.commit()
+    post_id = post.id
+    session.close()
+    return post_id
