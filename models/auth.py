@@ -9,8 +9,9 @@
 from datetime import datetime
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import exists, and_
 
-from models.db import Base
+from models.db import Base, Session
 
 
 class User(Base):
@@ -25,13 +26,19 @@ class User(Base):
     def __repr__(self):
         return "<User: #{}-{}>".format(self.id, self.username)
 
+    @classmethod
+    def is_exists(cls, username, password):
+        session = Session()
+        ret = session.query(exists().where(and_(cls.username==username, cls.password==password))).scalar()
+        # ret = bool(user)/
+        session.close()
+        return ret
 
 class Post(Base):
     __tablename__ = 'posts'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     image_url = Column(String(200))
-
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship('User', backref='posts', uselist=False, cascade='all')
 

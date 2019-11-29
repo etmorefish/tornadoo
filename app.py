@@ -24,6 +24,7 @@ class Application(tornado.web.Application):
             (r"/explore", main.ExploreHandler),
             (r"/post/(?P<post_id>[0-9]+)", main.PostHandler),
             (r"/signup", auth.RegisterHander),
+            (r"/login", auth.LoginHander),
 
         ]
         settings = dict(

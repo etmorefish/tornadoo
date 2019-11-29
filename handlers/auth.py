@@ -4,7 +4,7 @@
 # @Email   : maolei025@qq.com
 # @File    : auth.py
 # @Software: PyCharm
-from utils.auth import register
+from utils.auth import *
 from .main import BaseHandler
 
 
@@ -20,17 +20,32 @@ class RegisterHander(BaseHandler):
         password1 = self.get_argument('password1', '')
         password2 = self.get_argument('password2', '')
 
-        if username and password1 and password2:
-            if password1 == password2:
-                ret = register(username, password1)
-                if ret:
-                    self.session.set('tudo_cookie', username)
-                    self.redirect('/')
-                else:
-                    msg = 'register fail'
-            else:
-                msg = 'password error'
+        ret = register(username, password1, password2)
+        if ret['msg'] == 'ok':
+            self.session.set('tudo_cookie', username)
+            self.redirect('/')
         else:
-            msg = 'username or password is empty'
-        self.redirect('/signup?msg={}'.format(msg))
+            self.redirect('/signup?msg={}'.format(ret['msg']))
 
+
+
+
+
+class LoginHander(BaseHandler):
+    def get(self):
+        msg = self.get_argument('msg', '')
+        next_url = self.get_argument('next', '/')
+        self.render('login.html', next_url=next_url, msg=msg)
+
+    def post(self):
+        username = self.get_argument('name', '')
+        password = self.get_argument('password', '')
+
+        ret = authentic(username, password)
+        if ret['result']:
+            self.session.set('tudo_cookie', username)
+            next_url = self.get_argument('next_url', '/')
+            self.redirect(next_url)
+        else:
+            # msg = ret['msg'] or 'username or password error'
+            self.redirect('/login?msg={}'.format(ret['msg']))
