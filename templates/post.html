@@ -3,6 +3,6 @@
 
 {% block content %}
 
-  <img src="{{ static_url('images/{}.jpg'.format(post_id)) }}">
+  <img src="{{ static_url(post.image_url) }}">
 
 {% end %}

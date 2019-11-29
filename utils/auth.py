@@ -66,3 +66,17 @@ def add_post(img_url, username):
     post_id = post.id
     session.close()
     return post_id
+
+def get_all_posts():
+    session = Session()
+    posts = session.query(Post).all()
+    if posts:
+        return posts
+    else:
+        return []
+
+def get_post(post_id):
+    session = Session()
+    post = session.query(Post).filter_by(id=post_id).scalar()
+    return post
+

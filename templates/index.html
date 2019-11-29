@@ -4,7 +4,7 @@
 {% block content %}
   {% for img in img_list %}
 
-  <img src="{{ static_url(img) }}">
+  <img src="{{ static_url(img.image_url) }}">
   {% end %}
 
 {% end %}
