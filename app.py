@@ -24,6 +24,8 @@ class Application(tornado.web.Application):
             (r"/explore", main.ExploreHandler),
             (r"/post/(?P<post_id>[0-9]+)", main.PostHandler),
             (r"/signup", auth.RegisterHander),
+            (r"/login", auth.LoginHander),
+            (r"/logout", auth.LogoutHander),
 
         ]
         settings = dict(
@@ -32,6 +34,7 @@ class Application(tornado.web.Application):
             template_path='templates',
             cookie_secret="asdfghjkjjrtetiiu",
             # xsrf_cookies=True,
+            login_url = '/login',
             pycket={
                 'engine': 'redis',
                 'storage': {

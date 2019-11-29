@@ -18,6 +18,7 @@ class IndexHandler(BaseHandler):
     '''
     首页 用户上传图片的展示
     '''
+    @tornado.web.authenticated
     def get(self):
         self.render('index.html', img_list=[])
 
@@ -26,6 +27,7 @@ class PostHandler(BaseHandler):
     '''
     单个图片的详情页
     '''
+    @tornado.web.authenticated
     def get(self, post_id):
         self.render('post.html', post_id=post_id)
 

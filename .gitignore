@@ -3,3 +3,4 @@
 *.log
 *.DS_Storegi
 /alembic/test.py
+/note
