@@ -8,11 +8,19 @@
 import  uuid
 import os
 
+from PIL import Image
+
+IMAGE_FORMAT = {
+    '.jpg': 'JEPG'
+}
+
 class UploadImage(object):
     '''
     辅助保护用户上传的图片，记录图片相关的url 用来保存到数据库
     '''
     upload_dir = 'uploads'
+    thumbs_dir = 'thumbs'
+    thumb_size = (200, 200)
 
     def __init__(self, ext, static_path):
         self.ext = ext
@@ -35,3 +43,21 @@ class UploadImage(object):
         with open(self.save_to, 'wb') as f:
             f.write(content)
 
+    @property
+    def thumb_url(self):
+        name, ext = os.path.splitext(self.new_name)
+        thumb_name = '{}_{}x{}{}'.format(name,
+                                       self.thumb_size[0],
+                                       self.thumb_size[1],
+                                       ext)
+        return  os.path.join(self.upload_dir,self.thumbs_dir, thumb_name)
+
+    def make_thumb(self):
+        '''
+        生成缩略图
+        :return:
+        '''
+        im = Image.open(self.save_to)
+        im.thumbnail(self.thumb_size)
+        path = os.path.join(self.static_path, self.thumb_url)
+        im.save(path)

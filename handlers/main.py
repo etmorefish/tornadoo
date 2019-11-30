@@ -72,9 +72,16 @@ class UploadHandler(BaseHandler):
             # print(ext, "-"*20)
             up_im = UploadImage(ext, self.application.settings['static_path'])
             up_im.save_content(img_dict['body'])
+            up_im.make_thumb()
 
-            self.write('upload done')
+            print(up_im.static_path,'\n',up_im.thumb_url)
+            post_id = add_post(up_im.image_url, self.current_user)
 
+            # self.write('upload done')
+        if post_id:
+            self.redirect('/post/{}'.format(str(post_id)))
+        else:
+            self.write('upload error')
             # save_path = 'static/images/{}'.format(filename)
             # with open(save_path, 'wb') as f:
             #     f.write(img_dict['body'])
