@@ -5,11 +5,12 @@
 # @File    : main.py
 # @Software: PyCharm
 import tornado.web
+import os
 from PIL import Image
 from pycket.session import SessionMixin
 
 from utils.auth import add_post, get_all_posts, get_post
-
+from utils.photo import *
 
 class BaseHandler(tornado.web.RequestHandler, SessionMixin):
     def get_current_user(self):
@@ -56,24 +57,35 @@ class UploadHandler(BaseHandler):
     def get(self):
         return self.render('upload.html')
 
+    @tornado.web.authenticated
     def post(self):
         post_id = None
         file_list = self.request.files.get('picture', [])
+
         for img_dict in file_list:  # {"filename":..., "content_type":..., "body":...}
             filename = img_dict['filename']
-            print(filename)
+            print(filename, self.application.settings['static_path'])
             print(img_dict['content_type'])
-            save_path = 'static/images/{}'.format(filename)
-            with open(save_path, 'wb') as f:
-                f.write(img_dict['body'])
+
+            _, ext = os.path.splitext(filename)
+            # ext = filename.split('.')[-1]
+            # print(ext, "-"*20)
+            up_im = UploadImage(ext, self.application.settings['static_path'])
+            up_im.save_content(img_dict['body'])
+
+            self.write('upload done')
+
+            # save_path = 'static/images/{}'.format(filename)
+            # with open(save_path, 'wb') as f:
+            #     f.write(img_dict['body'])
 
             # 把图片变成缩略图
-            img = Image.open(save_path)
-            img.thumbnail((200, 200))
-            img.save('static/images/thum_{}'.format(filename), 'JPEG')
-
-            post_id = add_post('images/{}'.format(filename), self.current_user)
-        if post_id:
-            self.redirect('/post/{}'.format(str(post_id)))
-        else:
-            self.write('upload error')
+        #     img = Image.open(up_im.save_to)
+        #     img.thumbnail((200, 200))
+        #     img.save('static/images/thum_{}'.format(filename), 'JPEG')
+        #
+        #     post_id = add_post('images/{}'.format(filename), self.current_user)
+        # if post_id:
+        #     self.redirect('/post/{}'.format(str(post_id)))
+        # else:
+        #     self.write('upload error')
