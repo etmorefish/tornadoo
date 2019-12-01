@@ -12,9 +12,11 @@ from pycket.session import SessionMixin
 from utils.auth import add_post, get_all_posts, get_post
 from utils.photo import *
 
+SESSION_NAME = 'tudo_cookie'
+
 class BaseHandler(tornado.web.RequestHandler, SessionMixin):
     def get_current_user(self):
-        return self.session.get("tudo_cookie")
+        return self.session.get(SESSION_NAME)
 
 
 class IndexHandler(BaseHandler):
@@ -24,8 +26,8 @@ class IndexHandler(BaseHandler):
 
     @tornado.web.authenticated
     def get(self):
-        posts = get_all_posts()
-        self.render('index.html', img_list=posts)
+        posts = get_all_posts(self.current_user)
+        self.render('index.html', posts=posts)
 
 
 class PostHandler(BaseHandler):
@@ -48,7 +50,9 @@ class ExploreHandler(BaseHandler):
     '''
 
     def get(self):
-        self.render('explore.html', img_list=[])
+        posts = get_all_posts()
+
+        self.render('explore.html', posts=posts)
 
 
 class UploadHandler(BaseHandler):
@@ -75,7 +79,7 @@ class UploadHandler(BaseHandler):
             up_im.make_thumb()
 
             print(up_im.static_path,'\n',up_im.thumb_url)
-            post_id = add_post(up_im.image_url, self.current_user)
+            post_id = add_post(up_im.image_url, up_im.thumb_url, self.current_user)
 
             # self.write('upload done')
         if post_id:

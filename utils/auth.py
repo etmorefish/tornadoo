@@ -57,19 +57,29 @@ def authentic(username, password):
     }
     return ret
 
-def add_post(img_url, username):
+def add_post(img_url, thumb_url, username):
     session = Session()
     user = session.query(User).filter_by(username=username).first()
-    post = Post(image_url=img_url, user_id=user.id)
+    post = Post(image_url=img_url, thumb_url=thumb_url, user_id=user.id)
     session.add(post)
     session.commit()
     post_id = post.id
     session.close()
     return post_id
 
-def get_all_posts():
+def get_all_posts(username=None):
+    '''
+    查询获取所有图片或者是特定的用户
+    :param username:如果没做，就是获取全部图片
+    :return:
+    '''
     session = Session()
-    posts = session.query(Post).all()
+    if username:
+        user = session.query(User).filter_by(username=username).first()
+        posts = session.query(Post).filter_by(user=user).all()
+
+    else:
+        posts = session.query(Post).all()
     if posts:
         return posts
     else:

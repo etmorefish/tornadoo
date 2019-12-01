@@ -10,7 +10,7 @@ import tornado.ioloop
 import tornado.web
 import tornado.options
 from tornado.options import define, options
-
+from tornado.web import URLSpec
 from handlers import main, auth
 
 
@@ -19,10 +19,11 @@ define('port', default='8001', help='Listening port', type=int)
 
 class Application(tornado.web.Application):
     def __init__(self):
+        self.SESSION_NAME = 'tudo_cookie'
         handlers = [
             (r"/", main.IndexHandler),
             (r"/explore", main.ExploreHandler),
-            (r"/post/(?P<post_id>[0-9]+)", main.PostHandler),
+            URLSpec(r"/post/(?P<post_id>[0-9]+)", main.PostHandler, name='post'),
             (r"/upload", main.UploadHandler),
             (r"/signup", auth.RegisterHander),
             (r"/login", auth.LoginHander),

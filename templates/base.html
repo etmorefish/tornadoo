@@ -6,6 +6,9 @@
   <link rel="shortcut icon" href="{{ static_url('images/favicon.ico') }}">
 </head>
 <body>
+{% if current_user %}
+  {{ current_user }} is login
+{% end %}<br>
 {{ datetime.datetime.now() }}<br>
 {% block content %}
 

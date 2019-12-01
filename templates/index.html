@@ -2,9 +2,16 @@
 {% block title %} index {% end %}
 
 {% block content %}
-  {% for img in img_list %}
-
-  <img src="{{ static_url(img.image_url) }}">
+  {% for post in posts %}
+<a href="{{ reverse_url('post', post.id )}}">
+  <img src="{{ static_url(post.image_url) }}">
+</a>
   {% end %}
+{##}
+{#{% block content %}#}
+{#  {% for img in img_list %}#}
+{##}
+{#  <img src="{{ static_url(img.image_url) }}">#}
+{#  {% end %}#}
 
 {% end %}

@@ -4,5 +4,6 @@
 {% block content %}
 
   <img src="{{ static_url(post.image_url) }}">
-
+<p>Upload by {{ post.user.username }}</p>
+<p> thumb_url: {{ post.thumb_url }}</p>
 {% end %}

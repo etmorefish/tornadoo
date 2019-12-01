@@ -5,7 +5,7 @@
 # @File    : auth.py
 # @Software: PyCharm
 from utils.auth import *
-from .main import BaseHandler
+from .main import BaseHandler, SESSION_NAME
 from models.auth import Post
 
 
@@ -23,7 +23,7 @@ class RegisterHander(BaseHandler):
 
         ret = register(username, password1, password2)
         if ret['msg'] == 'ok':
-            self.session.set('tudo_cookie', username)
+            self.session.set(SESSION_NAME, username)
             self.redirect('/')
         else:
             self.redirect('/signup?msg={}'.format(ret['msg']))
@@ -48,7 +48,7 @@ class LoginHander(BaseHandler):
 
         ret = authentic(username, password)
         if ret['result']:
-            self.session.set('tudo_cookie', username)
+            self.session.set(SESSION_NAME, username)
             next_url = self.get_argument('next_url', '/')
             self.redirect(next_url)
         else:
@@ -58,7 +58,7 @@ class LoginHander(BaseHandler):
 
 class LogoutHander(BaseHandler):
     def get(self):
-        self.session.delete('tudo_cookie')
+        self.session.delete(SESSION_NAME)
         self.write('logout done')
 
 

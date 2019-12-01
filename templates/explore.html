@@ -2,9 +2,9 @@
 {% block title %} index {% end %}
 
 {% block content %}
-  {% for img in img_list %}
-
-  <img src="{{ static_url(img) }}">
+  {% for post in posts %}
+<a href="/post/{{ post.id }}">
+  <img src="{{ static_url(post.thumb_url) }}">
+</a>
   {% end %}
-
 {% end %}
