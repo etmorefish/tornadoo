@@ -2,16 +2,30 @@
 {% block title %} index {% end %}
 
 {% block content %}
-  {% for post in posts %}
-<a href="{{ reverse_url('post', post.id )}}">
-  <img src="{{ static_url(post.image_url) }}">
-</a>
-  {% end %}
-{##}
-{#{% block content %}#}
-{#  {% for img in img_list %}#}
-{##}
-{#  <img src="{{ static_url(img.image_url) }}">#}
-{#  {% end %}#}
+<div class="row">
+  <div class="col-12 col-sm-8 col-md-8">
+    {% for post in posts %}
+    <a href="{{ reverse_url('post', post.id ) }}">
+      <img src="{{ static_url(post.image_url) }}" class="img-fluid"/>
+    </a>
+    {% end %}
+  </div>
+  <div class="col-12 col-sm-4 col-md-4">
+
+    <div class="card">
+      <img src="https://gss0.bdstatic.com/5bVWsj_p_tVS5dKfpU_Y_D3/res/r/image/2017-09-26/352f1d243122cf52462a2e6cdcb5ed6d.png"
+           class="figure-img img-fluid rounded" alt="avatar">
+      <div class="card-body">
+        <h5 class="card-title">{{ current_user }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+          content.</p>
+        <a href="/profile" class="btn btn-primary">用户档案</a>
+      </div>
+    </div>
+
+  </div>
+
+</div>
 
 {% end %}

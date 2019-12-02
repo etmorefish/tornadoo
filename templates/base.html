@@ -2,16 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}default title{% end %}</title>
   <link rel="shortcut icon" href="{{ static_url('images/favicon.ico') }}">
+{#  <link rel="stylesheet" href="{{ static_url('css/bootstrap.css') }}">#}
+{#  <link rel="stylesheet" href="{{ static_url('css/bootstrap_yeti.min.css') }}">#}
+  <link rel="stylesheet" href="{{ static_url('css/bootstrap_slate.min.css') }}">
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
 </head>
 <body>
-{% if current_user %}
-  {{ current_user }} is login
-{% end %}<br>
-{{ datetime.datetime.now() }}<br>
-{% block content %}
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="#"><i class="fa fa-bars" aria-hidden="true"></i> Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">首页 <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/explore">发现</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">关于</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+             aria-haspopup="true" aria-expanded="false">
+            Dropdown link
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+      </ul>
+      <a class="btn btn-outline-success my-2 my-sm-0" href="/upload" target="_blank">上传</a>
+    </div>
+  </nav>
+  <div class="alert alert-primary" role="alert">
+    {% if current_user %}
+    {{ current_user }} is login
+    {% end %}<br>
+    Now:{{ datetime.datetime.now() }}<br>
+  </div>
+  {% block content %}
 
-{% end %}
+  {% end %}
+</div>
+
+
+<script src="{{ static_url('js/jquery.min.js') }}"></script>
+<script src="{{ static_url('js/popper.min.js') }}"></script>
+<script src="{{ static_url('js/bootstrap.js') }}"></script>
+
 </body>
 </html>

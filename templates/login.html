@@ -2,26 +2,39 @@
 
 
 {% block content %}
-
-{% if msg %}
-<p>{{ msg }}</p>
-{% end %}
-
-
-{% if current_user %}
-<p>{{ current_user }}已经登录</p><br>
-{% else %}
-
-<form action="/login" enctype="multipart/form-data" method="post">
-{#  {% module xsrf_form_html() %}#}
-    用户名：<input type="text" name="name" /><br>
-{#    <input type="email" name="email" />#}
-    密  码：<input type="password" name="password" /><br>
-
-    <input type="hidden" name="next_url" value="{{ next_url }}"/>
-     登  录：<input type="submit" /><br>
-</form>
+<div class="row justify-content-center">
+  <div class="col-12 col-sm-6 col-md-4">
+    {% if msg %}
+    <div class="alert alert-danger">{{ msg }}</div>
+    {% end %}
 
 
-{% end %}
+    {% if current_user %}
+    <p>{{ current_user }}已经登录</p><br>
+    {% else %}
+
+    <form action="/login" enctype="multipart/form-data" method="post">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1"><i class="fa fa-user fa-fw" aria-hidden="true"></i></span>
+        </div>
+        <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+               aria-describedby="basic-addon1" name="name">
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1"><i class="fa fa-key fa-fw" aria-hidden="true"></i></span>
+        </div>
+        <input type="password" class="form-control" name="password">
+      </div>
+      {#  {% module xsrf_form_html() %}#}
+
+      <input type="hidden" name="next_url" value="{{ next_url }}"/>
+      <input type="submit" class="btn btn-primary "/>
+    </form>
+
+
+    {% end %}
+  </div>
+</div>
 {% end %}
